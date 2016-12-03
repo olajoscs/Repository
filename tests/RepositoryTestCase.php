@@ -39,9 +39,9 @@ abstract class RepositoryTestCase extends \PHPUnit_Framework_TestCase
     {
         $connection = ConnectionFactory::get();
 
-        $connection->query('DROP TABLE repository_test');
+        $connection->execute('DROP TABLE repository_test');
 
-        $connection->query(
+        $connection->execute(
             'CREATE TABLE repository_test (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 name VARCHAR(64),

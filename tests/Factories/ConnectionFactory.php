@@ -25,7 +25,7 @@ class ConnectionFactory
             $config = include(__DIR__ . '../../../config/config.php');
 
             $dsn = "{$config['type']}:host={$config['host']};dbname={$config['database']};";
-            $connection = new Connection($dsn, $config['user'], $config['password'], $config['options']);
+            $connection = new Connection($config['type'], $config['host'], $config['user'], $config['password'], $config['database'], $config['options']);
         }
 
         return $connection;

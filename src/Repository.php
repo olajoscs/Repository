@@ -4,6 +4,7 @@ namespace OlajosCs\Repository;
 
 use OlajosCs\QueryBuilder\Contracts\Connection;
 use OlajosCs\QueryBuilder\Exceptions\QueryBuilderException;
+use OlajosCs\Repository\Contracts\RepositoryInterface;
 use OlajosCs\Repository\Exceptions\MappingException;
 
 /**
@@ -11,7 +12,7 @@ use OlajosCs\Repository\Exceptions\MappingException;
  *
  * Basic abstract repository
  */
-abstract class Repository
+abstract class Repository implements RepositoryInterface
 {
     /**
      * Defaul order
@@ -116,6 +117,7 @@ abstract class Repository
         return $this->connection
             ->select()
             ->from($this->dummy->getTableName())
+            ->orderBy($this->dummy->getIdField(), static::DEFAULT_ORDER)
             ->getAsClasses($this->getModelClass());
     }
 
@@ -141,7 +143,7 @@ abstract class Repository
                 ->into($this->dummy->getTableName())
                 ->execute();
 
-            $model->setId($this->connection->lastInsertId());
+            $model->setId($this->connection->getPdo()->lastInsertId());
         }
     }
 
