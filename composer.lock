@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8d91941c1b0b952b210c4e0763d03b4",
+    "hash": "04bfa7129f06e31e5518469e0fd06185",
     "content-hash": "313b06def60cf222c0ce620f7fee2d66",
     "packages": [
         {
             "name": "olajoscs/querybuilder",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/olajoscs/QueryBuilder.git",
-                "reference": "f1642bbcee8868a8946b29893c8cb6b8351a576e"
+                "reference": "160864c3adf0260c19fb989ca73e9b472c10c58c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/olajoscs/QueryBuilder/zipball/f1642bbcee8868a8946b29893c8cb6b8351a576e",
-                "reference": "f1642bbcee8868a8946b29893c8cb6b8351a576e",
+                "url": "https://api.github.com/repos/olajoscs/QueryBuilder/zipball/160864c3adf0260c19fb989ca73e9b472c10c58c",
+                "reference": "160864c3adf0260c19fb989ca73e9b472c10c58c",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
             ],
             "description": "A basic query builder for relational databases.",
             "homepage": "https://github.com/olajoscs/QueryBuilder",
-            "time": "2016-11-12 14:04:38"
+            "time": "2017-02-11 11:01:27"
         }
     ],
     "packages-dev": [

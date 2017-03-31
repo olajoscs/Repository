@@ -7,7 +7,7 @@ return [
     'type'     => 'mysql',
     'host'     => 'localhost',
     'database' => 'sample_database',
-    'user'     => 'travis',
+    'username' => 'travis',
     'password' => '',
     'charset'  => 'utf8',
     'options'  => [
