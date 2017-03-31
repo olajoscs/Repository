@@ -131,7 +131,7 @@ abstract class Repository implements RepositoryInterface
      */
     public function save(Model $model)
     {
-        if ($model->exists()) {
+        if ($model->exists() && $model->isModified()) {
             $this->connection
                 ->update($this->dummy->getTableName())
                 ->where($model->getIdField(), '=', $model->getId())
