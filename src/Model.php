@@ -2,6 +2,7 @@
 
 namespace OlajosCs\Repository;
 
+use OlajosCs\Repository\Contracts\ModelInterface;
 use OlajosCs\Repository\Exceptions\MagicMethodCalledException;
 use OlajosCs\Repository\Exceptions\ValidationException;
 
@@ -10,7 +11,7 @@ use OlajosCs\Repository\Exceptions\ValidationException;
  *
  * Defines an abstract parent for the model
  */
-abstract class Model implements \JsonSerializable
+abstract class Model implements ModelInterface
 {
     /**
      * @var array The original state, as it was read from the database
@@ -24,23 +25,7 @@ abstract class Model implements \JsonSerializable
      * @return void
      * @throws ValidationException
      */
-    abstract protected function validate();
-
-
-    /**
-     * Return the name of the id field of the model if exists
-     *
-     * @return string
-     */
-    abstract public function getIdField();
-
-
-    /**
-     * Return the name of the table in the database, which stores the model
-     *
-     * @return string
-     */
-    abstract public function getTableName();
+    abstract public function validate();
 
 
     /**
@@ -48,12 +33,13 @@ abstract class Model implements \JsonSerializable
      */
     public function __construct()
     {
-        $this->originalState = $this->getSaveableProperties();
+        $this->originalState = $this->getPropertiesForIsModified();
     }
 
 
     /**
-     * Return the name of the properties, which are not important when checking model properties change
+     * Return the name of the properties, which are not important when checking model properties change.
+     * These properties are usually the necessary properties for the Model/Repository workflow.
      *
      * @return array
      */
@@ -72,7 +58,7 @@ abstract class Model implements \JsonSerializable
     {
         $array = $this->getProperties();
         unset(
-            $array[$this->getIdField()]
+            $array[static::getIdField()]
         );
 
         return $array;
@@ -86,7 +72,7 @@ abstract class Model implements \JsonSerializable
      */
     public function exists()
     {
-        return (bool)$this->{$this->getIdField()};
+        return (bool)$this->{static::getIdField()};
     }
 
 
@@ -97,7 +83,18 @@ abstract class Model implements \JsonSerializable
      */
     public function isModified()
     {
-        return $this->originalState !== $this->getSaveableProperties();
+        return $this->originalState != $this->getPropertiesForIsModified();
+    }
+
+
+    /**
+     * Return properties to isModified check
+     *
+     * @return array
+     */
+    protected function getPropertiesForIsModified()
+    {
+        return $this->getSaveableProperties();
     }
 
 
@@ -125,7 +122,7 @@ abstract class Model implements \JsonSerializable
      */
     public function getId()
     {
-        return $this->{$this->getIdField()};
+        return $this->{static::getIdField()};
     }
 
 
@@ -138,7 +135,7 @@ abstract class Model implements \JsonSerializable
      */
     public function setId($id)
     {
-        $this->{$this->getIdField()} = $id;
+        $this->{static::getIdField()} = $id;
 
         return $this;
     }

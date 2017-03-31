@@ -75,6 +75,5 @@ class RepositorySaveTest extends RepositoryTestCase
         $this->repository->save($test);
 
         $this->assertEquals(4, $test->getId());
-
     }
 }

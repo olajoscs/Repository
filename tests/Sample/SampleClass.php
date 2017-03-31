@@ -31,7 +31,7 @@ class SampleClass extends Model
     /**
      * @inheritdoc
      */
-    protected function validate()
+    public function validate()
     {
         if (empty($this->name)) {
             throw new ValidationException('name is empty');
@@ -46,7 +46,7 @@ class SampleClass extends Model
     /**
      * @inheritdoc
      */
-    public function getIdField()
+    public static function getIdField()
     {
         return 'id';
     }
@@ -55,7 +55,7 @@ class SampleClass extends Model
     /**
      * @inheritdoc
      */
-    public function getTableName()
+    public static function getTableName()
     {
         return 'repository_test';
     }

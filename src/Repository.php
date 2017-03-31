@@ -128,15 +128,20 @@ abstract class Repository implements RepositoryInterface
      * @param Model $model
      *
      * @return void
+     * @throws \OlajosCs\Repository\Exceptions\ValidationException
      */
     public function save(Model $model)
     {
-        if ($model->exists() && $model->isModified()) {
-            $this->connection
-                ->update($this->dummy->getTableName())
-                ->where($model->getIdField(), '=', $model->getId())
-                ->set($model->getSaveableProperties())
-                ->execute();
+        $model->validate();
+
+        if ($model->exists()) {
+            if ($model->isModified()) {
+                $this->connection
+                    ->update($this->dummy->getTableName())
+                    ->where($model::getIdField(), '=', $model->getId())
+                    ->set($model->getSaveableProperties())
+                    ->execute();
+            }
         } else {
             $this->connection
                 ->insert($model->getSaveableProperties())
@@ -160,7 +165,7 @@ abstract class Repository implements RepositoryInterface
         $this->connection
             ->delete()
             ->from($this->dummy->getTableName())
-            ->where($model->getIdField(), '=', $model->getId())
+            ->where($model::getIdField(), '=', $model->getId())
             ->execute();
     }
 }
