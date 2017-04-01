@@ -4,7 +4,6 @@
  * Config for the connection for the test
  */
 return [
-    'type'     => 'mysql',
     'host'     => 'localhost',
     'database' => 'sample_database',
     'username' => 'travis',
