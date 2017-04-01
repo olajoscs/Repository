@@ -39,7 +39,7 @@ abstract class RepositoryTestCase extends \PHPUnit_Framework_TestCase
     {
         $connection = ConnectionFactory::get();
 
-        $connection->execute('DROP TABLE repository_test');
+        $connection->execute('DROP TABLE IF EXISTS repository_test');
 
         $connection->execute(
             'CREATE TABLE repository_test (
