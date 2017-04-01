@@ -46,7 +46,7 @@ abstract class Repository implements RepositoryInterface
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $class = $this->getModelClass();
+        $class            = $this->getModelClass();
 
         $this->dummy = new $class();
     }
@@ -100,7 +100,7 @@ abstract class Repository implements RepositoryInterface
             $model = $this->get($id);
         } catch (MappingException $e) {
             $modelClass = $this->getModelClass();
-            $model = new $modelClass();
+            $model      = new $modelClass();
         }
 
         return $model;
@@ -167,5 +167,42 @@ abstract class Repository implements RepositoryInterface
             ->from($this->dummy->getTableName())
             ->where($model::getIdField(), '=', $model->getId())
             ->execute();
+    }
+
+
+    /**
+     * Return the instances, which have the ID in the parameter array
+     *
+     * @param array $ids The IDs which are needed
+     *
+     * @return Model[]
+     */
+    public function getWhereIdIn(array $ids)
+    {
+        return $this->connection
+            ->select()
+            ->from($this->dummy->getTableName())
+            ->whereIn($this->dummy->getIdField(), $ids)
+            ->getAsClasses($this->getModelClass());
+    }
+
+    /**
+     * Return the models, which have the ID in the parameter array.
+     * The keys of the returning array are the IDs of the models.
+     *
+     * @param array $ids
+     *
+     * @return Model[]
+     */
+    public function getWhereIdInWithKeys(array $ids)
+    {
+        $models = $this->getWhereIdIn($ids);
+
+        $returning = [];
+        foreach ($models as $model) {
+            $returning[$model->getId()] = $model;
+        }
+
+        return $returning;
     }
 }

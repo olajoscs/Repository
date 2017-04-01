@@ -52,14 +52,14 @@ class RepositoryGetTest extends RepositoryTestCase
         $test = $this->repository->getList();
 
         $expectedProperties = array_map(
-            function(SampleClass $sample) {
+            function (SampleClass $sample) {
                 return $sample->getProperties();
             },
             $expected
         );
 
         $testProperties = array_map(
-            function(SampleClass $sample) {
+            function (SampleClass $sample) {
                 return $sample->getProperties();
             },
             $test
@@ -99,7 +99,7 @@ class RepositoryGetTest extends RepositoryTestCase
 
 
     /**
-     * Testh when the getOrNew does not get any parameter
+     * Test when the getOrNew does not get any parameter
      *
      * @return void
      */
@@ -108,5 +108,56 @@ class RepositoryGetTest extends RepositoryTestCase
         $expectedNew = $this->repository->create();
         $testNew     = $this->repository->getOrNew();
         $this->assertEquals($expectedNew->getProperties(), $testNew->getProperties());
+    }
+
+    /**
+     * Test the getting list by ids
+     *
+     * @return void
+     */
+    public function testGetByIds()
+    {
+        $object1 = $this->repository->get(1);
+        $object2 = $this->repository->get(2);
+
+        $read = $this->repository->getWhereIdIn([1, 2]);
+
+        $expected = [$object1->getProperties(), $object2->getProperties()];
+        $test     = [$read[0]->getProperties(), $read[1]->getProperties()];
+
+        $this->assertEquals($expected, $test);
+    }
+
+    /**
+     * Test the getting list by non existing ids return empty array
+     *
+     * @return void
+     */
+    public function getGetByIdsEmpty()
+    {
+        $expected = [];
+        $test     = $this->repository->getWhereIdIn([1234, 5678]);
+
+        $this->assertEquals($expected, $test);
+    }
+
+    /**
+     * Test the getting list by ids with the ids as keys of the array
+     *
+     * @return void
+     */
+    public function testGetByIdsWithKeys()
+    {
+        $object1 = $this->repository->get(1);
+        $object2 = $this->repository->get(2);
+
+        $test = $this->repository->getWhereIdInWithKeys([1, 2]);
+
+        $expected = [
+            $object1->getId() => $object1,
+            $object2->getId() => $object2,
+        ];
+
+        $this->assertEquals($expected, $test);
     }
 }
